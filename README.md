@@ -30,7 +30,6 @@ retail-transactions-analysis/
 │   └── raw/                   # Dataset original
 ├── notebooks/
 │   └── analisis_visual.ipynb  # Código fuente: Limpieza, EDA y Modelo RFM
-├── img/                       # Visualizaciones exportadas
 ├── README.md
 ├── requirements.txt           # Dependencias del entorno
 └── .gitignore
