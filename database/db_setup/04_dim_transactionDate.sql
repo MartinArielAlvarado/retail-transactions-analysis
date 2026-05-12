@@ -1,0 +1,6 @@
+CREATE TABLE IF NOT EXISTS dw.dim_transactionDate(
+    Date_key SERIAL PRIMARY KEY,
+    Year INTEGER NOT NULL,
+    Month INTEGER NOT NULL,
+    Day INTEGER NOT NULL
+);
