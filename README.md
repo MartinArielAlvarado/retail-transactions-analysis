@@ -1,4 +1,4 @@
-# Pipeline End-to-End y Segmentacion RFM en Retail 🛒
+# Pipeline End-to-End de transacciones de retail🛒
 
 **Proyecto de Business Intelligence integral enfocado en analisis de transacciones de retail.**
 
