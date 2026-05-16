@@ -1,6 +1,6 @@
-# 🛒 Análisis de Comportamiento y Retención en Retail
+# Pipeline End-to-End y Segmentacion RFM en Retail 🛒
 
-**Análisis exploratorio de transacciones para identificar patrones de compra y segmentar clientes.**
+**Proyecto de Business Intelligence integral enfocado en analisis de transacciones de retail.**
 
 ## 🎯 Contexto del Proyecto
 Este proyecto analiza un dataset transaccional de un comercio minorista con el objetivo de entender mejor los hábitos de consumo. A través del análisis de datos históricos, se busca identificar en qué momentos se concentra la mayor actividad, cómo se componen los ingresos por categoría y evaluar el estado de la retención de usuarios mediante un modelo RFM.
