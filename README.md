@@ -1,25 +1,39 @@
-# 🛒 Análisis de Comportamiento y Retención en Retail
+# 🛒 Pipeline End-to-End de Transacciones de Retail (EDA | Data Warehouse | ETL | Power BI)
 
-**Análisis exploratorio de transacciones para identificar patrones de compra y segmentar clientes.**
+**Proyecto integral de Business Intelligence enfocado en el análisis de transacciones de retail, ingeniería de datos y visualización para la toma de decisiones estratégicas.**
 
 ## 🎯 Contexto del Proyecto
-Este proyecto analiza un dataset transaccional de un comercio minorista con el objetivo de entender mejor los hábitos de consumo. A través del análisis de datos históricos, se busca identificar en qué momentos se concentra la mayor actividad, cómo se componen los ingresos por categoría y evaluar el estado de la retención de usuarios mediante un modelo RFM.
+Este proyecto simula un entorno corporativo real y se divide en 3 fases principales:
 
-Evolución del Proyecto: La versión inicial se desarrolló como un análisis exploratorio ad-hoc utilizando Python (Pandas). Para escalar la solución y permitir el consumo interactivo por parte de stakeholders, la arquitectura evolucionó hacia un modelo de Inteligencia de Negocios. Se implementó un modelo de datos dimensional (Star Schema) consumido a través de Excel (Power Query/Pivot) y dashboards interactivos en Power BI.
+1. **Análisis Exploratorio (EDA):** Análisis profundo del dataset transaccional (tipo "sábana") en Jupyter Notebook utilizando Python (Pandas) y visualizaciones con `seaborn.objects` orientado a responder 5 preguntas de negocio (estan en el notebook). Se integraron consultas en SQL (PostgreSQL/DBeaver) para validar la calidad de datos, tipos, estadística descriptiva y descubrir patrones de consumo.
+2. **Data Warehouse y Proceso ETL:** Para optimizar las consultas analíticas, se desnormalizó el dataset original migrándolo hacia un modelo de **Esquema Estrella (Star Schema)**. El ETL fue desarrollado modularmente en Python con 4 scripts independientes (Extracción, Transformación, Carga y un `main.py` orquestador) procesando +100.000 registros de forma eficiente. Desarrollado en un entorno WSL (Ubuntu) utilizando VSCode y Git.
+3. **Business Intelligence (BI):** Desarrollo de un dashboard interactivo de 3 páginas en Power BI para el monitoreo de KPIs operativos y estratégicos, implementando modelado DAX avanzado.
 
 ## 🛠️ Stack Tecnológico
-* **Procesamiento y Análisis:** Python (Pandas), SQL, Excel
-* **Visualización de Datos:** Matplotlib, Seaborn (`seaborn.objects`), Power BI
-* **Entorno:** Jupyter Notebook, Git
+* **Lenguajes:** Python (Pandas), SQL, DAX
+* **Bases de Datos:** PostgreSQL
+* **Visualización:** Power BI, Matplotlib, Seaborn (`seaborn.objects`)
+* **Herramientas y Entorno:** Jupyter Notebook, DBeaver, Git, VSCode, WSL (Ubuntu)
 
 ---
 
-## 💡 Resumen Ejecutivo (Hallazgos Principales)
+## 💡 Resumen Ejecutivo y Hallazgos (Insights)
 
-* **Horarios de mayor actividad vs. Recaudación:** Se observó que el pico de transacciones ocurre a las 19:00 hs (impulsado por la categoría *Home Decor*), sin embargo, la hora que genera mayores ingresos brutos es a la 01:00 hs.
-  * *Oportunidad detectada:* Ofrecer descuentos en horarios de baja actividad podría simplemente trasladar las ventas que igual iban a ocurrir en el horario pico, sin generar ingresos nuevos. Una alternativa más rentable sería aprovechar el tráfico natural de las 19:00 hs ofreciendo beneficios (como envío bonificado) a partir de un ticket de compra más alto.
-* **Segmentación de Clientes (Modelo RFM):** Agrupando a los clientes por su Recencia, Frecuencia y Valor Monetario, se determinó que aproximadamente un 95% de los clientes compraron una sola vez y al cruzar esta informacion con el analisis de concentracion de revenue resulta en que aproximadamente el 50% de los clientes concentran el 80% del revenue.
-* **Comportamiento por Medio de Pago:** Los datos muestran que los usuarios no presentan grandes diferencias entre metodos de pago, resultan en montos similares (teniendo en cuenta que es un dataset ficticio descargado de Kaggle).
+* **Horarios de mayor actividad vs. Recaudación:** El pico máximo de volumen de transacciones ocurre a las 19:00 hs (impulsado por la categoría *Home Decor*); sin embargo, el mayor ingreso bruto se registra a la 01:00 hs. 
+  * *Oportunidad de Negocio:* Ofrecer descuentos en horarios de baja actividad podría canibalizar ventas orgánicas. Una estrategia más rentable es aprovechar el tráfico natural de las 19:00 hs ofreciendo beneficios (ej. envío bonificado) condicionados a un ticket promedio más alto. El dashboard permite analizar esta estacionalidad dinámicamente.
+* **Segmentación de Clientes y Concentración de Valor:** Mediante la implementación de un **Modelo RFM** (Recencia, Frecuencia, Monto), se identificó que el 95% de los usuarios son compradores únicos. Al cruzar esto con un análisis de Pareto, se descubrió una alta concentración de rentabilidad: aproximadamente el **50% de la base de clientes genera el 80% del revenue total**.
+* **Comportamiento por Medio de Pago:** Los hábitos de consumo no presentan variaciones significativas según el método de pago utilizado, manteniendo un ticket promedio estable en todos los canales.
+
+---
+
+## 🏗️ Modelo de Datos (Star Schema)
+
+El Data Warehouse fue diseñado bajo la metodología de Ralph Kimball, compuesto por un esquema en estrella dentro del esquema lógico `dw`:
+
+* **Tablas de Dimensiones:** `dim_product`, `dim_store`, `dim_payment`, `dim_transactionDate`, `dim_transactionTime`.
+* **Tabla de Hechos:** `fact_transactions`.
+
+![Diagrama de la Base de Datos](images/diagrama_db_retail_transactions_analysis.png)
 
 ---
 
@@ -28,16 +42,24 @@ Evolución del Proyecto: La versión inicial se desarrolló como un análisis ex
 ```text
 retail-transactions-analysis/
 │
-├── data/
-│   ├── raw/                   # Dataset original
-│   └── processed/             # Dataset limpio listo para BI
 ├── dashboards/
-│   ├── reporte_comercial.pbix # Archivo de Power BI
-│   └── analisis_ad_hoc.xlsx   # Archivo Excel con Pareto y Pivot Tables
-├── notebooks/
-│   └── analisis_visual.ipynb  # Código fuente: Limpieza, EDA y Modelo RFM
+│   └── analisis_transacciones.pbix                   # Archivo de Power BI
+├── data/
+│   └── raw/                                          # Dataset original
+├── database/
+│   └── db_setup/                                     # Archivos .sql de schema y tablas (DDL/DML)
 ├── images/
-│   └── powerbi_dashboard.png  # Captura para mostrar en el README
+│   ├── KPIs_ventas_metodo_pago.png                   # Captura de Power BI
+│   ├── ventas_horas_dias.png                         # Captura de Power BI
+│   ├── RFM_clientes_historico.png                    # Captura de Power BI
+│   └── diagrama_db_retail_transactions_analysis.png  # Diagrama Entidad-Relación               
+├── notebooks/
+│   └── analisis_visual.ipynb                         # Limpieza, EDA y exploración RFM
+├── src/                                              # Scripts .py del pipeline ETL
+│   ├── extract.py
+│   ├── transform.py
+│   ├── load.py
+│   └── main.py                                       # Orquestador del pipeline
 ├── README.md
-└── requirements.txt
+├── requirements.txt
 └── .gitignore
