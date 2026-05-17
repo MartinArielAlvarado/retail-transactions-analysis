@@ -45,7 +45,7 @@ retail-transactions-analysis/
 ├── dashboards/
 │   └── analisis_transacciones.pbix                   # Archivo de Power BI
 ├── data/
-│   └── raw/                                          # Dataset original (no subido por tamaño/privacidad)
+│   └── raw/                                          # Dataset original
 ├── database/
 │   └── db_setup/                                     # Archivos .sql de schema y tablas (DDL/DML)
 ├── images/
